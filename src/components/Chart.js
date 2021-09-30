@@ -86,14 +86,14 @@ const Chart = () => {
             <div className="avatar-chart">
               <img src={item.avatar} alt="chart-avatar" />
               <div className="line-box">
-                <img
-                  src={helper}
-                  alt="helper"
+                <div
                   aria-owns="chart-bar-helper"
                   aria-haspopup="true"
                   onMouseEnter={handlePopoverOpenBar}
                   onMouseLeave={handlePopoverCloseBar}
-                />
+                >
+                  <img src={helper} alt="helper" />
+                </div>
               </div>
             </div>
           )}
@@ -115,14 +115,14 @@ const Chart = () => {
             {item.label}
             {index === chartData.length - 1 && (
               <span className="chart-helper rotate45">
-                <img
-                  src={helper}
-                  alt="helper"
+                <span
                   aria-owns="chart-helper"
                   aria-haspopup="true"
                   onMouseEnter={handlePopoverOpenChart}
                   onMouseLeave={handlePopoverCloseChart}
-                />
+                >
+                  <img src={helper} alt="helper" />
+                </span>
               </span>
             )}
           </p>

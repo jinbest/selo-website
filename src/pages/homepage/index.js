@@ -18,6 +18,7 @@ const HomePage = () => {
     if (!authStore.isSigned) {
       history.push("/login");
     }
+    // eslint-disable-next-line
   }, []);
 
   const handlePopoverOpen = (event) => {
@@ -42,14 +43,14 @@ const HomePage = () => {
               <span className="badge">
                 <img src={ss} alt="ss-peak" />
                 <span className="liner-helper">
-                  <img
-                    src={helper}
-                    alt="ss-helper"
+                  <span
                     aria-owns="ss-helper"
                     aria-haspopup="true"
                     onMouseEnter={handlePopoverOpen}
                     onMouseLeave={handlePopoverClose}
-                  />
+                  >
+                    <img src={helper} alt="ss-helper" />
+                  </span>
                 </span>
               </span>
             </p>

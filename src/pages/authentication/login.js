@@ -13,6 +13,7 @@ const Login = (props) => {
     if (authStore.isSigned) {
       history.push("/");
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

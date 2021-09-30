@@ -43,6 +43,7 @@ const LoginForm = (props) => {
     password: Yup.string()
       .required("Password is required.")
       .matches(
+        // eslint-disable-next-line
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
         "Password is too weak."
       )
