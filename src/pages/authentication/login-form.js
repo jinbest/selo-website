@@ -26,7 +26,7 @@ const LoginForm = (props) => {
         authStore.setIsSigned(true);
         actions.setSubmitting(false);
         setTimeout(() => {
-          location.reload();
+          window.location.reload();
         }, 500);
       } else {
         props.setToastParams({
