@@ -5,50 +5,62 @@ import { FormGroup, TextField } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { authStore } from "../../store";
 import { signupInitialValue, notification } from "../../service/data/constant";
-import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 const SignupForm = (props) => {
   const formikRef = useRef(null);
-  const history = useHistory();
   const delayTime = 2000;
 
   const onSave = (values, actions) => {
     actions.setSubmitting(true);
+    const user = authStore.user;
     setTimeout(() => {
-      if (values.password === values.confPass) {
+      if (values.email === user.email || values.username === user.username) {
+        props.setToastParams({
+          msg: notification.error.exist,
+          isError: true,
+        });
+        actions.setSubmitting(false);
+      } else {
         props.setToastParams({
           msg: notification.success.signup,
           isSuccess: true,
         });
         authStore.setIsSigned(true);
         authStore.setUser({
+          fullname: values.fullname,
           username: values.username,
           email: values.email,
           password: values.password,
         });
-        actions.setSubmitting(false);
-        history.push("/");
-      } else {
-        props.setToastParams({
-          msg: notification.error.signup,
-          isError: true,
+        authStore.setProfile({
+          fullname: values.fullname,
+          username: values.username,
+          avatar: "",
         });
         actions.setSubmitting(false);
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       }
     }, delayTime);
   };
 
   const signupSchema = Yup.object().shape({
+    fullname: Yup.string().required("Full name is required."),
     username: Yup.string().required("Username is required."),
     email: Yup.string().email("Invalid email.").required("Email is required."),
     password: Yup.string()
       .required("Password is required.")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Password is too weak."
+      )
       .min(8, "Must be at least 8 characters.")
       .max(32, "Must be 32 characters or less."),
     confPass: Yup.string().oneOf(
       [Yup.ref("password"), null],
-      "Passwords must match"
+      "Passwords must be matched."
     ),
   });
 
@@ -64,6 +76,27 @@ const SignupForm = (props) => {
       >
         {({ values, setFieldValue, errors, touched, isSubmitting }) => (
           <Form className="sign-form">
+            <FormGroup className="form-group">
+              <TextField
+                id="fullname"
+                name="fullname"
+                InputLabelProps={{ required: false }}
+                value={values.fullname}
+                error={!!(errors.fullname && touched.fullname)}
+                className="form-control"
+                onChange={(e) => {
+                  setFieldValue("fullname", e.target.value);
+                }}
+                placeholder="FULL NAME ..."
+                type="text"
+                variant="outlined"
+                margin="dense"
+                helperText={
+                  errors.fullname && touched.fullname && errors.fullname
+                }
+              />
+            </FormGroup>
+
             <FormGroup className="form-group">
               <TextField
                 id="username"

@@ -1,0 +1,85 @@
+@import "./variables";
+
+.side-bar {
+  position: fixed;
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 300px;
+  background: transparent;
+  z-index: 1000;
+  @media (max-width: 1100px) {
+    background: $white;
+  }
+  .container {
+    padding: 100px 20px 70px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .profile {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      .MuiAvatar-root {
+        width: 88px;
+        height: 88px;
+        font-size: 50px;
+      }
+      .full-name {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: 0.27em;
+        color: $purple;
+        margin: 20px 0 5px;
+        border-bottom: 1px solid $grey;
+      }
+      .username {
+        font-style: italic;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 15px;
+        text-align: center;
+        color: $purple;
+      }
+    }
+    .nav-container {
+      margin: 30px 0;
+      padding: 0 0 0 20px;
+      li {
+        margin: 25px 0;
+        cursor: pointer;
+        color: $purple;
+        &:hover {
+          opacity: 0.7;
+        }
+        &::marker {
+          font-size: 20px;
+        }
+        p {
+          padding-left: 50px;
+          font-size: 14px;
+          line-height: 14px;
+        }
+      }
+    }
+    .sidebar-footer {
+      display: none;
+      margin: auto auto 0;
+      border-bottom: 1px solid $grey;
+      padding: 8px 0;
+      width: fit-content;
+      p {
+        font-size: 14px;
+        line-height: 14px;
+        color: $purple;
+        letter-spacing: 0.27em;
+      }
+      @media (max-width: 1100px) {
+        display: block;
+      }
+    }
+  }
+}

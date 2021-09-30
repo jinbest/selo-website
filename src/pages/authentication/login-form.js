@@ -5,12 +5,10 @@ import { FormGroup, TextField } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { authStore } from "../../store";
 import { loginInitialValue, notification } from "../../service/data/constant";
-import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 const LoginForm = (props) => {
   const formikRef = useRef(null);
-  const history = useHistory();
   const delayTime = 2000;
 
   const onSave = (values, actions) => {
@@ -27,7 +25,9 @@ const LoginForm = (props) => {
         });
         authStore.setIsSigned(true);
         actions.setSubmitting(false);
-        history.push("/");
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       } else {
         props.setToastParams({
           msg: notification.error.login,
@@ -42,6 +42,10 @@ const LoginForm = (props) => {
     username: Yup.string().required("Username is required."),
     password: Yup.string()
       .required("Password is required.")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Password is too weak."
+      )
       .min(8, "Must be at least 8 characters.")
       .max(32, "Must be 32 characters or less."),
   });

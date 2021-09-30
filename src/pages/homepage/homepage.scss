@@ -1,8 +1,95 @@
+@import "../../assets/style/variables";
+
 .homepage {
-  width: 100vw;
-  height: 100vh;
-  background-image: url("../../assets/img/home-bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 90px 20px 70px 70px;
+    img {
+      width: 380px;
+      max-width: 100%;
+    }
+    .current-peak {
+      margin: 0 auto;
+      max-width: 400px;
+      p {
+        color: $purple;
+        position: relative;
+        .badge {
+          position: absolute;
+          width: 20px;
+          img {
+            width: 100%;
+          }
+        }
+      }
+      .left-text {
+        text-align: right;
+        display: flex;
+        p {
+          margin: auto 0 10px auto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 30px;
+          line-height: 30px;
+          letter-spacing: 0.27em;
+        }
+      }
+      .right-text {
+        text-align: left;
+        .current {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 60px;
+          line-height: 72px;
+          .badge {
+            top: -30px;
+            height: 0;
+            .liner-helper {
+              position: absolute;
+              height: 1px;
+              width: 100px;
+              background: $grey;
+              top: 50px;
+              left: 25px;
+              img {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                top: -8px;
+                right: -16px;
+                cursor: pointer;
+                &:hover {
+                  opacity: 0.7;
+                }
+              }
+              @media (max-width: 768px) {
+                display: none;
+              }
+            }
+          }
+        }
+        .peak {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 48px;
+          line-height: 58px;
+          .badge {
+            top: -20px;
+          }
+        }
+      }
+    }
+    .liner {
+      width: 100%;
+      height: 1px;
+      background: $grey;
+      max-width: 350px;
+    }
+  }
 }

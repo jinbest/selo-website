@@ -1,13 +1,20 @@
 import { autorun, configure, makeAutoObservable } from "mobx";
+import jane from "../assets/img/jane.png";
 
 configure({ enforceActions: "always" });
 
 export class AuthStore {
   isSigned = false;
   user = {
+    fullname: "",
     username: "",
     email: "",
     password: "",
+  };
+  profile = {
+    fullname: "Jane Smith",
+    username: "jmith96",
+    avatar: jane,
   };
 
   constructor() {
@@ -23,6 +30,7 @@ export class AuthStore {
         JSON.stringify({
           isSigned: this.isSigned,
           user: this.user,
+          profile: this.profile,
         })
       );
     }
@@ -47,12 +55,22 @@ export class AuthStore {
     this.save();
   };
 
+  setProfile = (profile) => {
+    this.profile = profile;
+    this.save();
+  };
+
   init = () => {
     this.isSigned = false;
     this.user = {
       username: "",
       email: "",
       password: "",
+    };
+    this.profile = {
+      fullname: "",
+      username: "",
+      avatar: "",
     };
     this.save();
   };
