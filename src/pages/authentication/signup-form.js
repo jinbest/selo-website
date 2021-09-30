@@ -40,7 +40,7 @@ const SignupForm = (props) => {
         });
         actions.setSubmitting(false);
         setTimeout(() => {
-          location.reload();
+          window.location.reload();
         }, 500);
       }
     }, delayTime);
