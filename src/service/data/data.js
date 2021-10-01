@@ -1,45 +1,46 @@
 import jane from "../../assets/img/jane.png";
+import { CONSTANTS, ROUTERS } from "./constant";
 
 export const routerItems = [
   {
     name: "Home",
-    action: "none",
-    route: "/",
+    action: CONSTANTS.NONE,
+    route: ROUTERS.home,
   },
   {
     name: "Trends & Statistics",
-    action: "none",
-    route: "/trends-statistics",
+    action: CONSTANTS.NONE,
+    route: ROUTERS.trends,
   },
   {
     name: "Comparables",
-    action: "none",
-    route: "/comparables",
+    action: CONSTANTS.NONE,
+    route: ROUTERS.comparables,
   },
   {
     name: "Your Activity",
-    action: "none",
-    route: "/your-activity",
+    action: CONSTANTS.NONE,
+    route: ROUTERS.activity,
   },
   {
     name: "Privacy",
-    action: "none",
-    route: "/privacy",
+    action: CONSTANTS.NONE,
+    route: ROUTERS.privacy,
   },
   {
     name: "About Selo",
-    action: "none",
-    route: "/about-selo",
+    action: CONSTANTS.NONE,
+    route: ROUTERS.about,
   },
   {
     name: "My Profile",
-    action: "none",
-    route: "/my-profile",
+    action: CONSTANTS.NONE,
+    route: ROUTERS.profile,
   },
   {
     name: "Sign out",
-    action: "signout",
-    route: "/login",
+    action: CONSTANTS.SIGNOUT,
+    route: ROUTERS.login,
   },
 ];
 

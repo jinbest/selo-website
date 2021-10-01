@@ -4,6 +4,7 @@ import LoginForm from "./login-form";
 import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react";
 import { authStore } from "../../store";
+import { ROUTERS } from "../../service/data/constant";
 import "./authentication.scss";
 
 const Login = (props) => {
@@ -28,7 +29,7 @@ const Login = (props) => {
           New to SELO?
           <span
             onClick={() => {
-              history.push("/signup");
+              history.push(ROUTERS.signup);
             }}
           >
             Sign up here

@@ -1,47 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { chartData } from "../service/data/data";
 import helper from "../assets/img/helper.png";
-import MouseOverPopover from "./MouseOverPopover";
+import ReactTooltip from "react-tooltip";
+import { HelperTexts } from "../service/data/constant";
 import _ from "lodash";
 
 const Chart = () => {
   const maxVal = _.maxBy(chartData, (o) => o.value).value,
-    rate = maxVal > 0 ? 350 / maxVal : 1,
     topVal = 65;
 
-  const [anchorElBar, setAnchorElBar] = useState(null);
-  const [anchorElChart, setAnchorElChart] = useState(null);
-  const [anchorElTop, setAnchorElTop] = useState(null);
-  const [anchorEls, setAnchorEls] = useState(
-    new Array(chartData.length).fill(null)
-  );
+  const [rate, setRate] = useState(1);
 
-  const handlePopoverOpenBar = (event) => {
-    setAnchorElBar(event.currentTarget);
-  };
-
-  const handlePopoverCloseBar = () => {
-    setAnchorElBar(null);
-  };
-
-  const handlePopoverOpenChart = (event) => {
-    setAnchorElChart(event.currentTarget);
-  };
-
-  const handlePopoverCloseChart = () => {
-    setAnchorElChart(null);
-  };
-
-  const barOptions = {
-    anchorOrigin: {
-      vertical: "top",
-      horizontal: "center",
-    },
-    transformOrigin: {
-      vertical: "top",
-      horizontal: "center",
-    },
-  };
+  useLayoutEffect(() => {
+    const updateSize = () => {
+      const availHeight = window.innerHeight / 2 - 100;
+      if (maxVal > 0) {
+        setRate(availHeight / maxVal);
+      }
+    };
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, [maxVal]);
 
   return (
     <div className="custom-chart">
@@ -52,14 +32,8 @@ const Chart = () => {
         <div
           className="chart-bar"
           style={{ height: topVal * rate }}
-          aria-owns="top-helper"
-          aria-haspopup="true"
-          onMouseEnter={(e) => {
-            setAnchorElTop(e.currentTarget);
-          }}
-          onMouseLeave={() => {
-            setAnchorElTop(null);
-          }}
+          data-tip
+          data-for="top-helper"
         />
         <p className="rotate-45" style={{ marginTop: "10px" }}>
           top
@@ -67,15 +41,15 @@ const Chart = () => {
           500
         </p>
       </div>
-      <MouseOverPopover
+      <ReactTooltip
+        className="custom-tooptip"
+        arrowColor="transparent"
         id="top-helper"
-        anchorEl={anchorElTop}
-        handleCloseAnchorEl={() => {
-          setAnchorElTop(null);
-        }}
-        text={`Top: ${topVal}`}
-        options={barOptions}
-      />
+        place="top"
+        effect="solid"
+      >
+        {`Top: ${topVal}`}
+      </ReactTooltip>
       {chartData.map((item, index) => (
         <div
           className="chart-element"
@@ -86,12 +60,7 @@ const Chart = () => {
             <div className="avatar-chart">
               <img src={item.avatar} alt="chart-avatar" />
               <div className="line-box">
-                <div
-                  aria-owns="chart-bar-helper"
-                  aria-haspopup="true"
-                  onMouseEnter={handlePopoverOpenBar}
-                  onMouseLeave={handlePopoverCloseBar}
-                >
+                <div data-tip data-for="chart-bar-helper">
                   <img src={helper} alt="helper" />
                 </div>
               </div>
@@ -100,59 +69,51 @@ const Chart = () => {
           <div
             className="chart-bar"
             style={{ height: item.value * rate }}
-            aria-owns={`chart-bar-${index}`}
-            aria-haspopup="true"
-            onMouseEnter={(e) => {
-              anchorEls[index] = e.currentTarget;
-              setAnchorEls([...anchorEls]);
-            }}
-            onMouseLeave={() => {
-              anchorEls[index] = null;
-              setAnchorEls([...anchorEls]);
-            }}
+            data-tip
+            data-for={`chart-bar-${index}`}
           />
           <p className="rotate-45">
             {item.label}
             {index === chartData.length - 1 && (
               <span className="chart-helper rotate45">
-                <span
-                  aria-owns="chart-helper"
-                  aria-haspopup="true"
-                  onMouseEnter={handlePopoverOpenChart}
-                  onMouseLeave={handlePopoverCloseChart}
-                >
+                <span data-tip data-for="chart-helper">
                   <img src={helper} alt="helper" />
                 </span>
               </span>
             )}
           </p>
-          <MouseOverPopover
+          <ReactTooltip
+            className="custom-tooptip"
+            arrowColor="transparent"
             id={`chart-bar-${index}`}
-            anchorEl={anchorEls[index]}
-            handleCloseAnchorEl={() => {
-              anchorEls[index] = null;
-              setAnchorEls([...anchorEls]);
-            }}
-            text={`${item.label}: ${item.value}`}
-            options={barOptions}
-          />
+            place="top"
+            effect="solid"
+          >
+            {`${item.label}: ${item.value}`}
+          </ReactTooltip>
         </div>
       ))}
       <div className="selo-leaderboard">
         <p>selo leaderboard</p>
       </div>
-      <MouseOverPopover
+      <ReactTooltip
+        className="custom-tooptip large-tip"
+        arrowColor="transparent"
         id="chart-bar-helper"
-        anchorEl={anchorElBar}
-        handleCloseAnchorEl={handlePopoverCloseBar}
-        text="this is a visual representation of your SELO Score and overall position on the global SELO Leaderboard"
-      />
-      <MouseOverPopover
+        place="right"
+        effect="solid"
+      >
+        {HelperTexts.ChartBar}
+      </ReactTooltip>
+      <ReactTooltip
+        className="custom-tooptip large-tip"
+        arrowColor="transparent"
         id="chart-helper"
-        anchorEl={anchorElChart}
-        handleCloseAnchorEl={handlePopoverCloseChart}
-        text="users are assigned tiers depending on their SELO score, and can move between each one based on your latest current score"
-      />
+        place="right"
+        effect="solid"
+      >
+        {HelperTexts.ChartLabel}
+      </ReactTooltip>
     </div>
   );
 };
