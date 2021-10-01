@@ -15,7 +15,7 @@ const AutoCounter = ({ from, to, className, duration }) => {
     });
 
     return () => controls.stop();
-  }, [from, to]);
+  }, [from, to, duration]);
 
   return <p ref={nodeRef} className={className} />;
 };
