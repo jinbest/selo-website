@@ -4,10 +4,17 @@ import { Form, Formik } from "formik";
 import { FormGroup, TextField } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { authStore } from "../../store";
-import { signupInitialValue, notification } from "../../service/data/constant";
+import {
+  signupInitialValue,
+  notification,
+  ROUTERS,
+} from "../../service/data/constant";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 const SignupForm = (props) => {
+  const history = useHistory();
+
   const formikRef = useRef(null);
   const delayTime = 2000;
 
@@ -39,29 +46,29 @@ const SignupForm = (props) => {
           avatar: "",
         });
         actions.setSubmitting(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
+        history.push(ROUTERS.home);
       }
     }, delayTime);
   };
 
   const signupSchema = Yup.object().shape({
-    fullname: Yup.string().required("Full name is required."),
-    username: Yup.string().required("Username is required."),
-    email: Yup.string().email("Invalid email.").required("Email is required."),
+    fullname: Yup.string().required(notification.schema.fullname),
+    username: Yup.string().required(notification.schema.username),
+    email: Yup.string()
+      .email(notification.schema.email.invalid)
+      .required(notification.schema.email.required),
     password: Yup.string()
-      .required("Password is required.")
+      .required(notification.schema.password.required)
       .matches(
         // eslint-disable-next-line
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        "Password is too weak."
+        notification.schema.password.weak
       )
-      .min(8, "Must be at least 8 characters.")
-      .max(32, "Must be 32 characters or less."),
+      .min(8, notification.schema.password.min)
+      .max(32, notification.schema.password.max),
     confPass: Yup.string().oneOf(
       [Yup.ref("password"), null],
-      "Passwords must be matched."
+      notification.schema.password.match
     ),
   });
 

@@ -7,6 +7,7 @@ import {
   Redirect,
   BrowserRouter as Router,
 } from "react-router-dom";
+import { ROUTERS } from "./service/data/constant";
 
 import HomePage from "./pages/homepage";
 import Login from "./pages/authentication/login";
@@ -43,24 +44,26 @@ function App() {
           {authStore.isSigned && <Sidebar />}
 
           <Switch>
-            <Route exact path="/" component={HomePage} />
+            <Route exact path={ROUTERS.home} component={HomePage} />
 
             <Route
-              path="/login"
+              path={ROUTERS.login}
               render={() => <Login setToastParams={setToastParams} />}
             />
             <Route
-              path="/signup"
+              path={ROUTERS.signup}
               render={() => <Signup setToastParams={setToastParams} />}
             />
-            {!authStore.isSigned && <Redirect to={{ pathname: "/login" }} />}
+            {!authStore.isSigned && (
+              <Redirect to={{ pathname: ROUTERS.login }} />
+            )}
 
-            <Route path="/trends-statistics" component={TrendsStatisTics} />
-            <Route path="/comparables" component={Comparables} />
-            <Route path="/your-activity" component={YourActivity} />
-            <Route path="/privacy" component={Privacy} />
-            <Route path="/about-selo" component={AboutSelo} />
-            <Route path="/my-profile" component={MyProfile} />
+            <Route path={ROUTERS.trends} component={TrendsStatisTics} />
+            <Route path={ROUTERS.comparables} component={Comparables} />
+            <Route path={ROUTERS.activity} component={YourActivity} />
+            <Route path={ROUTERS.privacy} component={Privacy} />
+            <Route path={ROUTERS.about} component={AboutSelo} />
+            <Route path={ROUTERS.profile} component={MyProfile} />
           </Switch>
 
           <Toast params={toastParams} resetStatuses={resetStatuses} />

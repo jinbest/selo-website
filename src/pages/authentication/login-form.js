@@ -4,10 +4,17 @@ import { Form, Formik } from "formik";
 import { FormGroup, TextField } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { authStore } from "../../store";
-import { loginInitialValue, notification } from "../../service/data/constant";
+import {
+  loginInitialValue,
+  notification,
+  ROUTERS,
+} from "../../service/data/constant";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 const LoginForm = (props) => {
+  const history = useHistory();
+
   const formikRef = useRef(null);
   const delayTime = 2000;
 
@@ -25,9 +32,7 @@ const LoginForm = (props) => {
         });
         authStore.setIsSigned(true);
         actions.setSubmitting(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
+        history.push(ROUTERS.home);
       } else {
         props.setToastParams({
           msg: notification.error.login,
@@ -39,16 +44,16 @@ const LoginForm = (props) => {
   };
 
   const loginSchema = Yup.object().shape({
-    username: Yup.string().required("Username is required."),
+    username: Yup.string().required(notification.schema.username),
     password: Yup.string()
-      .required("Password is required.")
+      .required(notification.schema.password.required)
       .matches(
         // eslint-disable-next-line
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        "Password is too weak."
+        notification.schema.password.weak
       )
-      .min(8, "Must be at least 8 characters.")
-      .max(32, "Must be 32 characters or less."),
+      .min(8, notification.schema.password.min)
+      .max(32, notification.schema.password.max),
   });
 
   return (

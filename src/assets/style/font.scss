@@ -7,3 +7,23 @@
   advance-override: 10;
   font-display: fallback;
 }
+
+@font-face {
+  font-family: "Futura Std Light";
+  src: url("../font/futura-std/FuturaStdLight.otf") format("truetype");
+  ascent-override: 100%;
+  descent-override: 20%;
+  line-gap-override: normal;
+  advance-override: 10;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Futura Std Medium";
+  src: url("../font/futura-std/FuturaStdMedium.otf") format("truetype");
+  ascent-override: 100%;
+  descent-override: 20%;
+  line-gap-override: normal;
+  advance-override: 10;
+  font-display: fallback;
+}
