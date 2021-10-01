@@ -5,10 +5,7 @@ import { useHistory } from "react-router-dom";
 import seloRed from "../../assets/img/selo-red.png";
 import { Grid } from "@material-ui/core";
 import Chart from "../../components/Chart";
-import ss from "../../assets/img/ss.png";
-import helper from "../../assets/img/helper.png";
-import ReactTooltip from "react-tooltip";
-import { HelperTexts, ROUTERS } from "../../service/data/constant";
+import { ROUTERS } from "../../service/data/constant";
 import AutoCounter from "../../components/AutoCounter";
 import "./homepage.scss";
 
@@ -31,15 +28,14 @@ const HomePage = () => {
             <p>current</p>
           </Grid>
           <Grid item xs={6} className="right-text">
-            <AutoCounter from={0} to={2926} duration={1} className="current" />
-            <div className="badge">
-              <img src={ss} alt="ss-peak" />
-              <span className="liner-helper">
-                <span data-tip data-for="ss-helper">
-                  <img src={helper} alt="ss-helper" />
-                </span>
-              </span>
-            </div>
+            <AutoCounter
+              from={0}
+              to={2926}
+              duration={1}
+              showSelo={true}
+              showHelperId="ss-helper"
+              className="current"
+            />
           </Grid>
         </Grid>
         <div className="liner" />
@@ -48,23 +44,17 @@ const HomePage = () => {
             <p>peak</p>
           </Grid>
           <Grid item xs={6} className="right-text">
-            <AutoCounter from={0} to={3055} duration={1.05} className="peak" />
-            <div className="badge peak-badge">
-              <img src={ss} alt="ss-peak" />
-            </div>
+            <AutoCounter
+              from={0}
+              to={3055}
+              duration={1.05}
+              showSelo={true}
+              className="peak"
+            />
           </Grid>
         </Grid>
         <Chart />
       </div>
-      <ReactTooltip
-        className="custom-tooptip large-tip"
-        arrowColor="transparent"
-        id="ss-helper"
-        place="right"
-        effect="solid"
-      >
-        {HelperTexts.SeloScore}
-      </ReactTooltip>
     </div>
   );
 };
